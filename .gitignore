@@ -3,8 +3,8 @@ __pycache__/
 *.py[codz]
 *$py.class
 
-# C extensions
-*.so
+# Virtual environment
+env/
 
 # Distribution / packaging
 .Python
@@ -48,7 +48,7 @@ cover/
 # Jupyter Notebook
 .ipynb_checkpoints
 \
-# Environments
+# Environment variables
 .env
 
 # Agents
