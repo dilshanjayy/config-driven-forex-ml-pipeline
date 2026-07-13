@@ -47,9 +47,12 @@ cover/
 
 # Jupyter Notebook
 .ipynb_checkpoints
-\
+
 # Environment variables
 .env
 
 # Agents
 .agents/
+
+# Issues
+.scratch/
