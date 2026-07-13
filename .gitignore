@@ -56,3 +56,8 @@ cover/
 
 # Issues
 .scratch/
+
+# Agent Configuration (Local-only)
+/AGENTS.md
+/docs/agents/
+
