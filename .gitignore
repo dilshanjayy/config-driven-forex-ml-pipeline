@@ -63,3 +63,6 @@ cover/
 
 # VS Code
 .vscode/
+
+# Training Runs
+runs/
