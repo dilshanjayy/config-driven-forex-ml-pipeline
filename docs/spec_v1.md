@@ -399,7 +399,7 @@ config-driven-forex-ml-pipeline/
 │   └── adr/
 │       ├── 0001-postgres-over-parquet.md
 │       └── 0002-centralized-data-sync-via-lambda.md
-├── forex_pipeline/
+├── fxml/
 │   ├── __init__.py
 │   ├── cli/
 │   │   ├── __init__.py
@@ -436,7 +436,7 @@ config-driven-forex-ml-pipeline/
 │   ├── tracking/
 │   │   ├── __init__.py
 │   │   └── mlflow_tracker.py         # MLflow logging wrapper (deferred)
-│   └── pipeline.py                   # Orchestrates the full training pipeline
+│   └── main.py                       # CLI entrypoint and pipeline orchestrator
 ├── migrations/
 │   └── ...                           # Alembic migration scripts
 ├── runs/                             # Training run outputs
