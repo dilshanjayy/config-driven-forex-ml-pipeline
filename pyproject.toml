@@ -1,0 +1,19 @@
+[project]
+name = "fxml"
+version = "0.1.0"
+description = "Cli tool for forex model training, backtesting, optimizing and data collecting using config files."
+authors = [
+    {name = "Dilshan Jayamanna",email = "dilshan.jayy@proton.me"}
+]
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[project.scripts]
+fxml = "fxml.main:main"
