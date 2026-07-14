@@ -4,7 +4,7 @@ __pycache__/
 *$py.class
 
 # Virtual environment
-env/
+.venv/
 
 # Distribution / packaging
 .Python
@@ -18,7 +18,7 @@ lib/
 lib64/
 parts/
 sdist/
-var/
+var/ommand prints the activate command of the virtual environment to the console.
 wheels/
 share/python-wheels/
 *.egg-info/
@@ -61,3 +61,5 @@ cover/
 /AGENTS.md
 /docs/agents/
 
+# VS Code
+.vscode/
