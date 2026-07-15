@@ -66,3 +66,6 @@ cover/
 
 # Training Runs
 runs/
+
+# Ruff cache
+.ruff_cache/
