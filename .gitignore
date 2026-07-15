@@ -18,7 +18,7 @@ lib/
 lib64/
 parts/
 sdist/
-var/ommand prints the activate command of the virtual environment to the console.
+var/
 wheels/
 share/python-wheels/
 *.egg-info/
