@@ -1,0 +1,69 @@
+name: CI
+on:
+    push:
+        paths-ignore:
+            - "docs/**"
+            - "notebooks/**"
+            - README.md
+    pull_request:
+        paths-ignore:
+            - "docs/**"
+            - "notebooks/**"
+            - README.md
+
+jobs:
+    lint-and-test:
+        runs-on: ubuntu-latest
+
+        services:
+            postgres:
+                image: postgres:16-alpine
+                env:
+                    POSTGRES_USER: postgres
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: forex
+                ports:
+                    - 5433:5432
+                options: >-
+                    --health-cmd pg_isready
+                    --health-interval 10s
+                    --health-timeout 5s
+                    --health-retries 5
+
+        steps:
+            - name: Checkout source code
+              uses: actions/checkout@v4
+
+            - name: Set up Python
+              uses: actions/setup-python@v4
+              with:
+                  python-version: "3.12"
+
+            - name: Install Poetry
+              uses: snok/install-poetry@v1
+              with:
+                  virtualenvs-create: true
+                  virtualenvs-in-project: true
+
+            - name: Cache dependencies
+              id: cache-deps
+              uses: actions/cache@v4
+              with:
+                  path: .venv
+                  key: ${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+
+            - name: Install dependencies
+              run: poetry install --no-interaction --no-root
+              if: steps.cache-deps.outputs.cache-hit != 'true'
+
+            - name: Install project
+              run: poetry install --no-interaction
+
+            - name: Run linting
+              run: poetry run ruff check .
+
+            - name: Run tests
+              env:
+                  DATABASE_URL: postgresql://postgres:password@localhost:5433/forex
+                  TWELVEDATA_API_KEY: test_key
+              run: poetry run pytest --cov=fxml --cov-report=xml
