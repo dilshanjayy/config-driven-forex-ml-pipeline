@@ -1,0 +1,58 @@
+# === Data ===
+data:
+    pair: "EUR/USD"
+    interval: "1h"
+    start_date: "2020-01-01"
+    end_date: "2024-12-31"
+
+# === Features ===
+features:
+    - name: rsi
+      params: { period: 14 }
+    - name: ema
+      params: { period: 50 }
+    - name: ema
+      params: { period: 200 }
+    - name: macd
+      params: { fast: 12, slow: 26, signal: 9 }
+    - name: bollinger_bands
+      params: { period: 20, std_dev: 2 }
+    - name: atr
+      params: { period: 14 }
+    - name: stochastic
+      params: { k_period: 14, d_period: 3 }
+
+# === Labeling ===
+labeling:
+    strategy: fixed_pip_threshold
+    params:
+        lookahead_bars: 5
+        buy_threshold_pips: 10 # resolved to price delta per pair
+        sell_threshold_pips: 10
+
+# === Preprocessing ===
+preprocessing:
+    missing_data: drop # drop | ffill | interpolate (for gap NaNs only)
+    scaler: standard # standard | minmax | robust | none
+
+# === Split ===
+split:
+    method: time_based
+    split_date: "2023-01-01" # train/validation boundary
+    # test_date: "2023-07-01"      # optional: validation/test boundary (enables 3-way split)
+    # embargo_bars: auto            # auto-derived from lookahead_bars, or set manually
+
+# === Model ===
+model:
+    type: random_forest # looked up in model registry
+    params:
+        n_estimators: 200
+        max_depth: 10
+        min_samples_split: 5
+        class_weight: balanced # balanced | null
+        random_state: 42
+
+# === Tracking ===
+tracking:
+    mlflow_tracking_uri: "http://localhost:5000" # used when MLflow is enabled
+    experiment_name: "forex_eurusd_1h"
