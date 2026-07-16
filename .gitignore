@@ -69,3 +69,6 @@ runs/
 
 # Ruff cache
 .ruff_cache/
+
+# Learning and Testing Playground
+playground/
