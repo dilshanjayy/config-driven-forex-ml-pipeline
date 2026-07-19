@@ -17,3 +17,16 @@ class OHLCV(Base):
     low: Mapped[float] = mapped_column(nullable=False)
     close: Mapped[float] = mapped_column(nullable=False)
     volume: Mapped[float] = mapped_column(nullable=False, default=0.0)
+
+    DATAFRAME_COLUMNS: list[str] = [
+        "timestamp",
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume",
+    ]
+
+    def to_dict(self) -> dict:
+        """Return the OHLCV data columns as a dictionary for DataFrame construction."""
+        return {col: getattr(self, col) for col in self.DATAFRAME_COLUMNS}

@@ -32,25 +32,8 @@ def load_ohlcv(
         records = results.scalars().all()
 
         df = pd.DataFrame(
-            [
-                {
-                    "timestamp": r.timestamp,
-                    "open": r.open,
-                    "high": r.high,
-                    "low": r.low,
-                    "close": r.close,
-                    "volume": r.volume,
-                }
-                for r in records
-            ],
-            columns=[
-                "timestamp",
-                "open",
-                "high",
-                "low",
-                "close",
-                "volume",
-            ],
+            [r.to_dict() for r in records],
+            columns=OHLCV.DATAFRAME_COLUMNS,
         )
 
         return df
