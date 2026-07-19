@@ -123,7 +123,7 @@ A CLI tool (`fxml`) that reads a YAML config file specifying every aspect of a t
 - Users extend by adding decorated functions in the indicators module (no plugin system for v1).
 
 ### Data Layer
-- PostgreSQL with SQLAlchemy ORM. Schema: single `ohlcv` table with `UNIQUE(pair, interval, timestamp)`.
+- PostgreSQL with SQLAlchemy ORM. Schema: single `ohlcv` table with `PRIMARY KEY(pair, interval, timestamp)`.
 - Alembic for migrations.
 - Connection via `DATABASE_URL` environment variable (works for both local and AWS RDS).
 
@@ -225,7 +225,6 @@ A CLI tool (`fxml`) that reads a YAML config file specifying every aspect of a t
 
 ```sql
 CREATE TABLE ohlcv (
-    id          BIGSERIAL PRIMARY KEY,
     pair        VARCHAR(10) NOT NULL,     -- e.g. 'EUR/USD'
     interval    VARCHAR(5)  NOT NULL,     -- e.g. '1h', '1d'
     timestamp   TIMESTAMPTZ NOT NULL,
@@ -235,10 +234,8 @@ CREATE TABLE ohlcv (
     close       DOUBLE PRECISION NOT NULL,
     volume      DOUBLE PRECISION DEFAULT 0,
 
-    UNIQUE(pair, interval, timestamp)
+    PRIMARY KEY (pair, interval, timestamp)
 );
-
-CREATE INDEX idx_ohlcv_pair_interval_ts ON ohlcv(pair, interval, timestamp);
 ```
 
 ---
