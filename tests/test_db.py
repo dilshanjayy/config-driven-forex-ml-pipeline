@@ -103,10 +103,22 @@ def test_ohlcv_unique_constraint(db_session: Session):
         close=1.1030,
         volume=1600.0,
     )
-    db_session.add(record2)
+    import warnings
 
-    with pytest.raises(IntegrityError):
-        db_session.commit()
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", category=DeprecationWarning)
+        warnings.filterwarnings("ignore", message="New instance.*conflicts with persistent instance", category=UserWarning)
+        # SQLAlchemy emits an SAWarning (subclass of UserWarning) when the
+        # identity-map detects a duplicate PK before the DB does.  We expect
+        # this here because the whole point of the test is to verify the DB
+        # constraint fires.
+        from sqlalchemy.exc import SAWarning
+
+        warnings.filterwarnings("ignore", category=SAWarning)
+        db_session.add(record2)
+
+        with pytest.raises(IntegrityError):
+            db_session.commit()
 
     db_session.rollback()
 
